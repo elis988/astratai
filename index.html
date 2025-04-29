@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="="https://www.googletagmanager.com/gtag/js?id=G-P3HCEBE8QT"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P3HCEBE8QT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -10,99 +10,240 @@
     gtag('config', 'G-P3HCEBE8QT');
   </script>
 
-  <!-- AstratAI SEO Meta Tags -->
-  <title>AstratAI - Your Private Smart Trading Brain | Smart Signals, AI Trading, Early Access</title>
-  <meta name="description" content="Welcome to AstratAI — your private AI-powered trading brain. Get smarter swing trading signals, cutting-edge strategies, and an exclusive early access invitation. The future of trading is coming soon.">
-  <meta name="keywords" content="AstratAI, AI Trading, Smart Trading, Private Trading Advisor, Swing Trade Signals, Stock Scanner AI, Intelligent Trading, Trading Signals, AI Trading Assistant, Best AI for Trading, Early Access Trading App">
+  <!-- SEO Meta Tags -->
+  <meta charset="UTF-8">
+  <title>AstratAI – Your Private Smart Trading Brain</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AstratAI is your personal AI-powered trading advisor. Gain exclusive early access to smarter trading signals, built with AI engines designed to beat the market.">
+  <meta name="keywords" content="AstratAI, AI Trading, Swing Trading, Stock Scanner, RSI, MACD, PVA, Trading Signals, Smart Advisor">
   <meta name="author" content="AstratAI">
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:title" content="AstratAI - Your Private Smart Trading Brain | Smart Signals, AI Trading, Early Access">
-  <meta property="og:description" content="Join AstratAI early and experience the future of private, AI-powered trading intelligence. Smarter signals, smarter moves. Coming soon.">
+  <meta property="og:title" content="AstratAI – Your Private Smart Trading Brain">
+  <meta property="og:description" content="Join early access to AstratAI – a smarter trading advisor powered by AI. Advanced signal engines built to beat the market.">
   <meta property="og:image" content="https://elis988.github.io/astratai/Logo.png">
   <meta property="og:url" content="https://www.astratai.com">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AstratAI - Your Private Smart Trading Brain">
-  <meta name="twitter:description" content="Smart trading signals powered by AI. Swing smarter, trade smarter. Early access coming soon!">
+  <meta name="twitter:title" content="AstratAI – Smart AI for Trading">
+  <meta name="twitter:description" content="Get early access to AstratAI. A private AI advisor designed to beat the market using PVA, RSI, MACD, and evolving intelligence.">
   <meta name="twitter:image" content="https://elis988.github.io/astratai/Logo.png">
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaFs6HxwZgMWNoEg2e5K01-oHXLe-80HM",
+      authDomain: "astratai.firebaseapp.com",
+      projectId: "astratai",
+      storageBucket: "astratai.firebasestorage.app",
+      messagingSenderId: "717911404535",
+      appId: "1:717911404535:web:f788bf97c7f936f8c208f2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.registerUser = async function(event) {
+      event.preventDefault();
+      const name = document.getElementById("reg-name").value;
+      const age = document.getElementById("reg-age").value;
+      const occupation = document.getElementById("reg-occupation").value;
+      const income = document.getElementById("reg-income").value;
+      const email = document.getElementById("reg-email").value;
+      const password = document.getElementById("reg-password").value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          name,
+          age,
+          occupation,
+          income,
+          email,
+          createdAt: serverTimestamp()
+        });
+
+        alert("Registration successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    };
+
+    window.loginUser = async function(event) {
+      event.preventDefault();
+      const email = document.getElementById("log-email").value;
+      const password = document.getElementById("log-password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    };
+  </script>
 
   <style>
     body {
-      background-color: #F5F5F5;
       font-family: Arial, sans-serif;
-      text-align: center;
+      background-color: #f9f9f9;
       color: #0B0B45;
-      padding: 50px 20px;
-      opacity: 0;
-      animation: fadeIn 2s ease-in forwards;
+      margin: 0;
+      padding: 30px;
+      text-align: center;
     }
+
     .logo {
-      margin-top: 30px;
+      height: 60px;
+      margin-bottom: 10px;
     }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
     h1 {
-      font-size: 32px;
-      margin-top: 20px;
+      font-size: 28px;
+      margin-bottom: 5px;
     }
+
     h2 {
-      margin-top: 20px;
-      font-size: 24px;
-      color: #333;
-    }
-    p {
-      font-size: 18px;
+      font-size: 20px;
       color: #555;
-      margin-top: 15px;
+      margin-top: 5px;
     }
-    em {
-      font-style: italic;
-      color: #777;
+
+    .description {
+      max-width: 700px;
+      margin: 20px auto;
+      color: #444;
+      font-size: 17px;
+      line-height: 1.6;
     }
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      margin-left: 10px;
-      margin-right: 10px;
-      padding: 15px 30px;
+
+    .forms {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 40px;
+    }
+
+    .form-box {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 45%;
+      min-width: 300px;
+      margin-bottom: 20px;
+    }
+
+    .form-box input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-box button {
+      padding: 10px 20px;
       background-color: #0B0B45;
-      color: #fff;
-      text-decoration: none;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
     }
-    .btn:hover {
+
+    .form-box button:hover {
       background-color: #333366;
     }
-    @keyframes fadeIn {
-      to { opacity: 1; }
+
+    footer {
+      font-size: 12px;
+      color: #888;
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .forms {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .form-box {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <img src="Logo.png" alt="AstratAI Logo" class="logo">
+    <h1>Your Private Smart Trading Brain</h1>
+    <h2>Now in Early Access Mode</h2>
 
-  <!-- Branding -->
-  <img src="Logo.png" alt="AstratAI Logo" class="logo" style="max-width: 250px;">
-  <h1>Your Private Smart Trading Brain</h1>
+    <div class="description">
+      <p>Try AstratAI before public launch. Access is limited, performance is real.</p>
+      <p>AstratAI is your personal AI-powered trading advisor. It helps you discover top swing trades using advanced strategies like Price-Volume Analysis (PVA), RSI, MACD, and candlestick detection — all ranked by smart scoring logic.</p>
+      <p>With auto-trial, real-time alerts, and capital-aware suggestions, AstratAI works as your private advisor — not just a tool.</p>
+      <p><strong>Behind the scenes, a self-evolving AI is being developed under wraps — designed to beat the market over time with predictive intelligence.</strong></p>
+    </div>
 
-  <!-- Positioning -->
-  <h2>Now in Early Access Mode</h2>
-  <p><em>Try AstratAI before public launch. Access is limited, performance is real.</em></p>
+    <div class="forms">
+      <!-- Register Form -->
+      <div class="form-box">
+        <h3>Register</h3>
+        <form onsubmit="registerUser(event)">
+          <input type="text" id="reg-name" placeholder="Name" required><br>
+          <input type="number" id="reg-age" placeholder="Age" required><br>
+          <input type="text" id="reg-occupation" placeholder="Occupation" required><br>
+          <input type="number" id="reg-income" placeholder="Annual Income" required><br>
+          <input type="email" id="reg-email" placeholder="Email" required><br>
+          <input type="password" id="reg-password" placeholder="Password" required><br>
+          <button type="submit">Register</button>
+        </form>
+      </div>
 
-  <!-- What AstratAI Does -->
-  <p>AstratAI is your personal AI-powered trading advisor. It helps you discover top swing trades using advanced strategies like Price-Volume Analysis (PVA), RSI, MACD, and candlestick detection — all ranked by smart scoring logic.</p>
-  <p>With auto-trial, real-time alerts, and capital-aware suggestions, AstratAI works as your private advisor — not just a tool.</p>
-
-  <!-- Call to Action -->
-  <div style="margin-top: 30px;">
-    <a href="register.html" class="btn">Register</a>
-    <a href="login.html" class="btn">Login</a>
+      <!-- Login Form -->
+      <div class="form-box">
+        <h3>Login</h3>
+        <form onsubmit="loginUser(event)">
+          <input type="email" id="log-email" placeholder="Email" required><br>
+          <input type="password" id="log-password" placeholder="Password" required><br>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
   </div>
 
+  <footer>
+    © All rights reserved AstratAI
+  </footer>
 </body>
 </html>
