@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AstratAI – Login</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAaFs6HxwZgMWNoEg2e5K01-oHXLe-80HM",
+      authDomain: "astratai.firebaseapp.com",
+      projectId: "astratai",
+      storageBucket: "astratai.firebasestorage.app",
+      messagingSenderId: "717911404535",
+      appId: "1:717911404535:web:f788bf97c7f936f8c208f2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    async function loginUser(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    }
+  </script>
+</head>
+<body>
+  <div style="display: flex; align-items: center; padding: 10px;">
+    <img src="Logo.png" alt="AstratAI Logo" style="height: 40px; margin-right: 10px;">
+    <h1 style="font-size: 20px; margin: 0;">AstratAI</h1>
+  </div>
+
+  <h2>AstratAI Login</h2>
+  <form onsubmit="loginUser(event)">
+    <label>Email:</label><br>
+    <input type="email" id="email" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" id="password" required><br><br>
+
+    <button type="submit">Login</button>
+  </form>
+</body>
+</html>
